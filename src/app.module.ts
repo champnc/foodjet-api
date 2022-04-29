@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { OrderModule } from './order/order.module';
 import { MenuModule } from './menu/menu.module';
+import { MenuModule } from './menu/menu.module';
 
 @Module({
   imports: [UserModule, RestaurantModule, OrderModule, MenuModule],
