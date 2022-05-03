@@ -4,17 +4,17 @@ services:
   postgres:
     image: postgres:14.2
     healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "champnc" ]
       timeout: 45s
       interval: 10s
       retries: 10
     restart: always
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=champnc
+      - POSTGRES_PASSWORD=P@ssw0rd
       - APP_DB_USER=docker
       - APP_DB_PASS=docker
-      - APP_DB_NAME=docker
+      - APP_DB_NAME=foodjet
     volumes:
       - ./db:/docker-entrypoint-initdb.d/
     ports:
