@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -30,6 +31,10 @@ model Restaurant {
 
 model User {
   id        Int      @id @default(autoincrement())
+  email     String
+  firstName String
+  lastName  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  hash      String
 }
