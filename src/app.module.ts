@@ -7,9 +7,11 @@ import { RestaurantModule } from './restaurant/restaurant.module';
 import { MenuModule } from './menu/menu.module';
 
 import { LoggerMiddleware } from './utils/logger.middleware';
+import { AuthModule } from './auth/auth.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [UserModule, RestaurantModule, OrderModule, MenuModule],
+  imports: [UserModule, RestaurantModule, OrderModule, MenuModule, AuthModule, PrismaModule],
   controllers: [AppController],
   providers: [AppService],
 })
