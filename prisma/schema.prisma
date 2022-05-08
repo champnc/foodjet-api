@@ -12,29 +12,77 @@ datasource db {
 }
 
 model Menu {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  name         String
+  description  String?
+  price        Float
+  quantity     Decimal
+  available    Boolean    @default(true)
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId Int
 }
 
 model Order {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deliveredAt  DateTime?
+  delivered    Boolean    @default(false)
+  total        Float
+  customer     User       @relation(name: "customerOrder", fields: [userId], references: [id])
+  rider        User       @relation(name: "riderOrder", fields: [riderId], references: [id])
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  userId       Int
+  restaurantId Int
+  riderId      Int
 }
 
 model Restaurant {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  description String?
+  available   Boolean  @default(false)
+  menus       Menu[]
+  Order       Order[]
+  location    Location @relation(fields: [locationId], references: [id])
+  locationId  Int
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String
-  firstName String
-  lastName  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  hash      String
+  id                    Int      @id @default(autoincrement())
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  firstName             String
+  lastName              String
+  email                 String   @unique
+  bio                   String?
+  hash                  String
+  role                  Role     @default(USER)
+  currentOrder          Order[]  @relation("customerOrder")
+  currentOrderToDeliver Order[]  @relation("riderOrder")
+  location              Location @relation(fields: [locationId], references: [id])
+  locationId            Int
+}
+
+model Location {
+  id         Int          @id @default(autoincrement())
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  address    String
+  lat        Float
+  lon        Float
+  state      String
+  postcode   Decimal
+  Restaurant Restaurant[]
+  User       User[]
+}
+
+enum Role {
+  USER
+  ADMIN
+  RIDER
 }
