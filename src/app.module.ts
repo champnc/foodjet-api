@@ -9,9 +9,10 @@ import { MenuModule } from './menu/menu.module';
 import { LoggerMiddleware } from './utils/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { LocationModule } from './location/location.module';
 
 @Module({
-  imports: [UserModule, RestaurantModule, OrderModule, MenuModule, AuthModule, PrismaModule],
+  imports: [UserModule, RestaurantModule, OrderModule, MenuModule, AuthModule, PrismaModule, LocationModule],
   controllers: [AppController],
   providers: [AppService],
 })
