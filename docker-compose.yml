@@ -1,31 +1,32 @@
 version: '3.8'
 
 services:
-  api:
+  nest-api:
+    container_name: nest-foodjet-api
     build: nestjs
     depends_on:
-      - postgres
+      postgres-db:
+        condition: service_healthy
     environment:
       DATABASE_URL: ${DATABASE_URL}
-      NODE_ENV: development
       PORT: 3000
     ports:
       - "8080:3000"
+    restart: on-failure
 
-  postgres:
+  postgres-db:
+    container_name: postgres-foodjet-db
     image: postgres:14.2
     healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "champnc" ]
+      test: [ "CMD", "pg_isready", "--d", "$${APP_DB_NAME}" ]
       timeout: 45s
       interval: 10s
       retries: 10
     restart: always
     environment:
-      - POSTGRES_USER=champnc
-      - POSTGRES_PASSWORD=P@ssw0rd
-      - APP_DB_USER=docker
-      - APP_DB_PASS=docker
-      - APP_DB_NAME=foodjet
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - APP_DB_NAME=${APP_DB_NAME}
     volumes:
       - ./db:/docker-entrypoint-initdb.d/
     ports:
