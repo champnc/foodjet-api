@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { UpdateMenuDto } from './dto/update-menu.dto';
 
 @Injectable()
 export class MenuService {
+  constructor(private prisma: PrismaService) {}
   create(createMenuDto: CreateMenuDto) {
     return 'This action adds a new menu';
   }
